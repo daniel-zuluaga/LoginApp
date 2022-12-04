@@ -1,66 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:login_app/widgets/button_check_in.dart';
 import 'package:login_app/widgets/text_field_form.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   static String id = "login_page";
   const LoginPage({super.key});
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool selectedLogin = true;
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.orange,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Fast \n Food".toUpperCase(),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                fontSize: 50,
-                fontWeight: FontWeight.bold,
-                color: Colors.white
+                style: GoogleFonts.rubikMicrobe(
+                  textStyle: const TextStyle(
+                    fontSize: 55,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                  ),
                 ),
-              ),
-
-              const SizedBox(
-                height: 60,
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  Text("Sign in", 
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white
-                    )
-                  ),
-
-                  Text("login", 
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white
-                    )
-                  ),
-                ],
               ),
 
               const SizedBox(
                 height: 40,
               ),
 
-              _textFieldName(),
-              const SizedBox(
-                height: 15,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        selectedLogin = true;
+                      });
+                    },
+                    child: Text("Sign in", 
+                      style: GoogleFonts.kaushanScript(
+                        textStyle: const TextStyle(
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        selectedLogin = false;
+                      });
+                    },
+                    child: Text("login", 
+                      style: GoogleFonts.kaushanScript(
+                        textStyle: const TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              _textFieldEmail(),
-              const SizedBox(
-                height: 15,
-              ),
-              _textFieldPassword(),
+
+              (selectedLogin) ? _columnSignup() : _columnLogin(),
 
             ],
           ),
@@ -68,8 +85,8 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-  
-  _textFieldName() {
+
+  Widget _textFieldName() {
     return TextFieldGeneral(
       labelText: "Name", 
       hintText: "",
@@ -78,8 +95,8 @@ class LoginPage extends StatelessWidget {
       keyBoardType: TextInputType.text
     );
   }
-  
-  _textFieldEmail() {
+
+  Widget _textFieldEmail() {
     return TextFieldGeneral(
       labelText: "Email", 
       hintText: "example@test.com",
@@ -88,14 +105,71 @@ class LoginPage extends StatelessWidget {
       keyBoardType: TextInputType.emailAddress
     );
   }
-  
-  _textFieldPassword() {
-    return TextFieldGeneral(
+
+  Widget _textFieldPassword() {
+    return TextFieldPassword(
       labelText: "Password", 
-      hintText: "",
       iconTextField: Icon(Icons.lock_outline), 
       onChanged: (value){},
+
+    );
+  }
+
+  Widget _buttonSignIn() {
+    return ButtonGeneral(labelText: 'Check in',);
+  }
+
+  Widget _buttonLogin() {
+    return ButtonGeneral(labelText: 'Log in',);
+  }
+
+  Widget _columnSignup(){
+    return Column(
+      children: [
+        const SizedBox(
+          height: 40,
+        ),
+
+        _textFieldName(),
+        const SizedBox(
+          height: 15,
+        ),
+        _textFieldEmail(),
+        const SizedBox(
+          height: 15,
+        ),
+        _textFieldPassword(),
+
+        const SizedBox(
+          height: 40,
+        ),
+
+        _buttonSignIn(),
+
+      ]
+    );
+  }
+  
+  Widget _columnLogin() {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 40,
+        ),
+        _textFieldEmail(),
+        const SizedBox(
+          height: 15,
+        ),
+        _textFieldPassword(),
+
+        const SizedBox(
+          height: 50,
+        ),
+
+        _buttonLogin(),
+      ],
     );
   }
 }
+
 
